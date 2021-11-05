@@ -23,6 +23,15 @@ class Task {
   time?: string;
 }
 
+@ObjectType()
+class LoginOutput{
+  @Field(()=>User)
+  user:User;
+
+  @Field()
+  token:string;
+}
+
 @Resolver(() => String)
 class HelloWord {
   @Mutation(() => Boolean)
@@ -37,11 +46,12 @@ class HelloWord {
     return !!user;
   }
 
-  @Mutation(()=>User)
+  @Mutation(()=>LoginOutput)
   async login(@Arg("email") email:string) {
     const user= User.findOne({email:email});
-    const token= jwt.sign({email}, process.env.jwtsecret)
-    return user;
+    const token= jwt.sign({email}, "jay swaminarayan");
+
+    return {user, token};
   }
 
   @Query(() => [User])
