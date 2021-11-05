@@ -5,8 +5,11 @@ import {
   Field,
   Mutation,
   Arg,
+  UseMiddleware,
 } from "type-graphql";
 import User from "./entity";
+import CreateUserInput from "./input";
+import jwt from "jsonwebtoken";
 
 @ObjectType()
 class Task {
@@ -23,11 +26,22 @@ class Task {
 @Resolver(() => String)
 class HelloWord {
   @Mutation(() => Boolean)
-  async createUser(@Arg("name") name: string, @Arg("email") email: string) {
-    const user = User.create({ name: name, email: email });
+  @UseMiddleware()
+  async createUser(@Arg("data") createUserInput: CreateUserInput) {
+    const user = User.create({
+      name: createUserInput.name,
+      email: createUserInput.email,
+    });
     user.save();
 
     return !!user;
+  }
+
+  @Mutation(()=>User)
+  async login(@Arg("email") email:string) {
+    const user= User.findOne({email:email});
+    const token= jwt.sign({email}, process.env.jwtsecret)
+    return user;
   }
 
   @Query(() => [User])
