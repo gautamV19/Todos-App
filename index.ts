@@ -5,13 +5,16 @@ import HelloWorld from "./src/resolver";
 import dotenv from "dotenv";
 import { createConnection } from "typeorm";
 import User from "./src/entity";
+import { decodeUser } from "./helper/extrafunctions";
+import authChecker from './src/authChecker'
 
 dotenv.config({ path: "./config.env" });
 
 const main = async () => {
-  const schema = await buildSchema({ resolvers: [HelloWorld] });
+  const schema = await buildSchema({ resolvers: [HelloWorld],authChecker: authChecker });
   const server = new ApolloServer({
     schema,
+    context: decodeUser
   });
 
   // The `listen` method launches a web server.

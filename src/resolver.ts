@@ -6,6 +6,7 @@ import {
   Mutation,
   Arg,
   UseMiddleware,
+  Authorized,
 } from "type-graphql";
 import User from "./entity";
 import CreateUserInput from "./input";
@@ -55,6 +56,7 @@ class HelloWord {
   }
 
   @Query(() => [User])
+  @Authorized()
   getUser() {
     const users = User.find();
     return users;
