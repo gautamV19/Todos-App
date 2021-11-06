@@ -7,10 +7,12 @@ import {
   Arg,
   UseMiddleware,
   Authorized,
+  Ctx,
 } from "type-graphql";
 import User from "./entity";
 import CreateUserInput from "./input";
 import jwt from "jsonwebtoken";
+import MyContext from "./context";
 
 @ObjectType()
 class Task {
@@ -70,6 +72,12 @@ class HelloWord {
     task.time = "7.13pm";
 
     return task;
+  }
+
+  @Query(() =>User)
+  @Authorized()
+  me(@Ctx() {user}:MyContext){
+    return user;
   }
 
   @Query(() => String)
