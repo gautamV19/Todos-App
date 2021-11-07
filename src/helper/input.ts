@@ -7,8 +7,9 @@ class CreateUserInput {
 
   @Field()
   email: string;
+
+  @Field()
+  password: string;
 }
-
-
 
 export default CreateUserInput;

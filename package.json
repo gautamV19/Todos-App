@@ -9,9 +9,11 @@
     "dev": "ts-node-dev --respawn index.ts"
   },
   "dependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/jsonwebtoken": "^8.5.5",
     "@types/node": "^16.11.6",
     "apollo-server": "^3.4.0",
+    "bcryptjs": "^2.4.3",
     "class-validator": "^0.13.1",
     "cuid": "^2.1.8",
     "dotenv": "^10.0.0",

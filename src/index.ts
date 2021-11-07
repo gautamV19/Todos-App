@@ -1,23 +1,28 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
-import HelloWorld from "./src/resolver";
 import dotenv from "dotenv";
 import { createConnection } from "typeorm";
-import User from "./src/entity";
+
+import TaskResolver from "./Resolvers/Task";
+import UserResolver from "./Resolvers/User";
 import { decodeUser } from "./helper/extrafunctions";
-import authChecker from './src/authChecker'
+import authChecker from "./helper/authChecker";
+import User from "./Models/User";
+import Task from "./Models/Task";
 
 dotenv.config({ path: "./config.env" });
 
 const main = async () => {
-  const schema = await buildSchema({ resolvers: [HelloWorld],authChecker: authChecker });
+  const schema = await buildSchema({
+    resolvers: [TaskResolver, UserResolver],
+    authChecker: authChecker,
+  });
   const server = new ApolloServer({
     schema,
-    context: decodeUser
+    context: decodeUser,
   });
 
-  // The `listen` method launches a web server.
   server
     .listen(7500)
     .then(({ url }) => {
@@ -33,7 +38,7 @@ createConnection({
   url: process.env.DATABASE_URL,
   synchronize: true,
   logging: true,
-  entities: [User],
+  entities: [User, Task],
 })
   .then(() => {
     console.log("Database Connected");
