@@ -10,8 +10,7 @@ import {
   Ctx,
 } from "type-graphql";
 import User from "../Models/User";
-import Task from "../Models/Task";
-import CreateUserInput from "../helper/input";
+import { CreateUserInput } from "../helper/input";
 import jwt from "jsonwebtoken";
 import MyContext from "../helper/context";
 import bcrypt from "bcryptjs";
@@ -67,16 +66,16 @@ class UserResolver {
     return users;
   }
 
-  //** Not needed for now */
-  @Query(() => Task)
-  getTask() {
-    const task = new Task();
-    task.title = "jsn";
-    task.description = "hihi";
-    task.time = "7.13pm";
+  // //** Not needed for now */
+  // @Query(() => Task)
+  // getTask() {
+  //   const task = new Task();
+  //   task.title = "jsn";
+  //   task.description = "hihi";
+  //   task.time = "7.13pm";
 
-    return task;
-  }
+  //   return task;
+  // }
 
   @Query(() => User)
   @Authorized()

@@ -1,12 +1,18 @@
 import User from "./User";
 import { Field, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, ManyToMany, PrimaryColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 @ObjectType()
 @Entity()
 class Task extends BaseEntity {
   @Field()
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Field(() => String)
@@ -21,7 +27,9 @@ class Task extends BaseEntity {
   @Column()
   time?: string;
 
-  @ManyToMany(() => User, (user) => user.tasks)
+  @ManyToOne(() => User, (user) => user.tasks, {
+    cascade: true,
+  })
   user: User;
 }
 

@@ -1,7 +1,7 @@
 import { Field, InputType } from "type-graphql";
 
 @InputType("createUserInput")
-class CreateUserInput {
+export class CreateUserInput {
   @Field()
   name: string;
 
@@ -12,4 +12,11 @@ class CreateUserInput {
   password: string;
 }
 
-export default CreateUserInput;
+@InputType("taskInput")
+export class TaskInput {
+  @Field(() => String)
+  title!: string;
+
+  @Field(() => String)
+  description!: string;
+}
