@@ -34,7 +34,7 @@ class User extends BaseEntity {
 
   @BeforeInsert()
   async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 13);
+    this.password = await bcrypt.hash(this.password, 12);
   }
 }
 

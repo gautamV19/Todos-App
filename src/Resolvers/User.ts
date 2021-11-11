@@ -15,6 +15,7 @@ import CreateUserInput from "../helper/input";
 import jwt from "jsonwebtoken";
 import MyContext from "../helper/context";
 import bcrypt from "bcryptjs";
+import cuid from "cuid";
 
 @ObjectType()
 class LoginOutput {
@@ -36,6 +37,7 @@ class UserResolver {
   @UseMiddleware()
   async createUser(@Arg("data") createUserInput: CreateUserInput) {
     const user = User.create({
+      id: cuid(),
       name: createUserInput.name,
       email: createUserInput.email,
       password: createUserInput.password,
@@ -47,9 +49,10 @@ class UserResolver {
 
   @Mutation(() => LoginOutput)
   async login(@Arg("email") email: string, @Arg("password") password: string) {
-    const user: any = User.findOne({ email: email });
+    const user: any = await User.findOne({ email: email });
     // why I can't check if user exist or not
-    const isMatched = await bcrypt.compare(user.password, password);
+
+    const isMatched = await bcrypt.compare(password, user.password);
     let token = "";
     if (isMatched) {
       token = jwt.sign({ email }, "jay swaminarayan");

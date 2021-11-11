@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "../entity";
+import User from "../Models/User";
 
 export async function decodeUser({ req }: { req: any }) {
   let user;
